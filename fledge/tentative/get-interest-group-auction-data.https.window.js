@@ -661,7 +661,7 @@ subsetTest(promise_test, async test => {
   assert_true(result.requestId !== null);
   assert_own_property(result, 'requests');
   assert_equals(result.requests.length, 1);
-  validateForSeller(result.requests[0], window.location.origin);
+  await validateForSeller(result.requests[0], window.location.origin);
 }, 'getInterestGroupAdAuctionData() multi-seller with single seller');
 
 subsetTest(promise_test, async test => {

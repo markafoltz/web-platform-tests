@@ -183,6 +183,30 @@ class SetPermissionAction:
         self.logger.debug("Setting permission %s to %s" % (name, state))
         self.protocol.set_permission.set_permission(descriptor, state)
 
+
+class SetGlobalPrivacyControlAction:
+    name = "set_global_privacy_control"
+
+    def __init__(self, logger, protocol):
+        self.logger = logger
+        self.protocol = protocol
+
+    def __call__(self, payload):
+        gpc = payload["gpc"]
+        return self.protocol.global_privacy_control.set_global_privacy_control(gpc)
+
+class GetGlobalPrivacyControlAction:
+    name = "get_global_privacy_control"
+
+    def __init__(self, logger, protocol):
+        self.logger = logger
+        self.protocol = protocol
+
+    def __call__(self, payload):
+        return self.protocol.global_privacy_control.get_global_privacy_control()
+
+
+
 class AddVirtualAuthenticatorAction:
     name = "add_virtual_authenticator"
 
@@ -523,6 +547,53 @@ class SetProtectedAudienceKAnonymityAction:
         owner, name, hashes = payload["owner"], payload["name"], payload["hashes"]
         return self.protocol.protected_audience.set_k_anonymity(owner, name, hashes)
 
+class SetDisplayFeaturesAction:
+    name = "set_display_features"
+
+    def __init__(self, logger, protocol):
+        self.logger = logger
+        self.protocol = protocol
+
+    def __call__(self, payload):
+        features = payload["features"]
+        return self.protocol.display_features.set_display_features(features)
+
+class ClearDisplayFeaturesAction:
+    name = "clear_display_features"
+
+    def __init__(self, logger, protocol):
+        self.logger = logger
+        self.protocol = protocol
+
+    def __call__(self, payload):
+        return self.protocol.display_features.clear_display_features()
+
+class WebExtensionInstallAction:
+    name = "install_web_extension"
+
+    def __init__(self, logger, protocol):
+        self.logger = logger
+        self.protocol = protocol
+
+    def __call__(self, payload):
+        self.logger.debug("installing web extension")
+        type = payload["type"]
+        path = payload.get("path")
+        value = payload.get("value")
+        return self.protocol.web_extensions.install_web_extension(type, path, value)
+
+class WebExtensionUninstallAction:
+    name = "uninstall_web_extension"
+
+    def __init__(self, logger, protocol):
+        self.logger = logger
+        self.protocol = protocol
+
+    def __call__(self, payload):
+        self.logger.debug("uninstalling web extension")
+        extension_id = payload["extension_id"]
+        return self.protocol.web_extensions.uninstall_web_extension(extension_id)
+
 actions = [ClickAction,
            DeleteAllCookiesAction,
            GetAllCookiesAction,
@@ -563,4 +634,10 @@ actions = [ClickAction,
            CreateVirtualPressureSourceAction,
            UpdateVirtualPressureSourceAction,
            RemoveVirtualPressureSourceAction,
-           SetProtectedAudienceKAnonymityAction]
+           SetProtectedAudienceKAnonymityAction,
+           SetDisplayFeaturesAction,
+           ClearDisplayFeaturesAction,
+           GetGlobalPrivacyControlAction,
+           SetGlobalPrivacyControlAction,
+           WebExtensionInstallAction,
+           WebExtensionUninstallAction]

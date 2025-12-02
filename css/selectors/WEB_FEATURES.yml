@@ -16,6 +16,9 @@ features:
 - name: modal
   files:
   - modal-pseudo-class.html
+- name: not
+  files:
+  - not-*
 - name: nth-child-of
   files:
   - nth-child-of-*
@@ -23,3 +26,6 @@ features:
   files:
   - user-invalid.html
   - user-valid.html
+- name: caret-color
+  files:
+  - caret-color-visited-inheritance.html
